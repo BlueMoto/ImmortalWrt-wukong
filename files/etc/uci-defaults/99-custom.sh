@@ -52,8 +52,9 @@ case "$board_name" in
         ;;
     *)
         # 默认第二个接口为WAN，其余为LAN
-        wan_ifname=$(echo "$ifnames" | awk '{print $2}')
-        lan_ifnames=$(echo "$ifnames" | cut -d ' ' -f2-)
+        wan_ifname=$(echo $ifnames | awk '{print $2}')
+        # 将第二个字段删除，剩下的作为LAN网口
+        lan_ifnames=$(echo $ifnames | awk '{$2="";$1=$1;print}')
         echo "Using default mapping: WAN=$wan_ifname LAN=$lan_ifnames" >>"$LOGFILE"
         ;;
 esac
